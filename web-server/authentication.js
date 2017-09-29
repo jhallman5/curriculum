@@ -8,6 +8,10 @@ if ( process.env.DISABLE_IDM !== '1' && !process.env.JWT_PUBLIC_KEY ) {
 const addFakeAuthenticatedUser = (request, response, next ) => {
   request.user = {id: 'this is a fake user!!', handle: 'Fake News'}
   response.locals.currentUser = request.user
+  request.backOffice = {
+    getUserByHandle: async () => request.user,
+    getAllUsers: async () => [ request.user ]
+  }
   next()
 }
 
